@@ -1,0 +1,40 @@
+@import "tailwindcss/base";
+
+@import "tailwindcss/components";
+
+.btn {
+  @apply shadow; 
+  @apply text-base;
+  @apply text-gray-200;
+  @apply rounded-md;
+}
+
+.btn:focus, .input:focus {
+  @apply outline-none;
+  @apply shadow-outline;
+}
+
+.btn.btn-red {
+  @apply bg-red-700;
+  @apply shadow-md
+}
+
+.input {
+  @apply shadow; 
+  @apply text-lg;
+  @apply text-gray-800;
+  @apply rounded-md;
+  @apply px-4;
+  @apply py-2;
+};
+
+a.active {
+  @apply bg-black
+};
+
+:root {
+  filter: invert(100%)
+}
+
+@import "tailwindcss/utilities";
+
