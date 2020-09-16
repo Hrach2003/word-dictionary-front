@@ -3,7 +3,9 @@ import { USER_ACTIONS, IUser, USER, IWord } from './../types/index';
 import APIService from '../../services/ApiService';
 
 export const useUserActions = (dispatch: React.Dispatch<USER_ACTIONS>) => {
-  const signInUser = () => window.location.href ='http://localhost:4000/auth/google'
+  const isDev = process.env.NODE_ENV === 'development'
+
+  const signInUser = () => window.location.href = `${isDev ? 'http://localhost:4000' : window.location.host}/auth/google`
 
   const getUser = useCallback(async () => {
     try {

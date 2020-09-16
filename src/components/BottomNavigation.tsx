@@ -16,7 +16,7 @@ export const BottomNavigation = () => {
       <NavLink to="/">
         <i className="fas fa-tasks"></i>
       </NavLink>
-      <NavLink to="learn">
+      <NavLink to="/learning">
         <i className="fas fa-graduation-cap"></i>
       </NavLink>
       {userState.authorized && <NavLink exact to="/profile">
