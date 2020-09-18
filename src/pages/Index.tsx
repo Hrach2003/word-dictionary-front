@@ -34,6 +34,7 @@ export const Index = () => {
           return <WordBox word={word} key={word._id} />
         })}
       </div>
+      
     </div>
   )
 }

@@ -31,7 +31,7 @@ export const WordsCarousel: React.FC<IWordCarouse> = ({ onChange = () => {} }) =
 
   const read = useSpeech(word)
   return (
-    <div className=" relative w-11/12 mx-auto rounded-md shadow-md mt-5 bg-gray-100">
+    <div className="relative w-11/12 mx-auto rounded-md shadow-md mt-5 bg-gray-100 z-0">
         <h3 className="text-center text-xl font-semibold py-3">
           {word ? word : <div className="animate-pulse h-8 w-32 mx-auto rounded bg-gray-500"></div>}
         </h3> 

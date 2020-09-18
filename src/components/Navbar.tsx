@@ -10,7 +10,6 @@ export const Navbar = () => {
   const [dropdownActive, setDropdownActive] = useState(false)
 
   const goTo = (path: string) => {
-    setDropdownActive(false)
     history.push(path)
   }
   const logout = () => {

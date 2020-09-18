@@ -5,7 +5,7 @@ import APIService from '../../services/ApiService';
 export const useUserActions = (dispatch: React.Dispatch<USER_ACTIONS>) => {
   const isDev = process.env.NODE_ENV === 'development'
 
-  const signInUser = () => window.location.href = `${isDev ? 'http://localhost:4000' : window.location.host}/auth/google`
+  const signInUser = () => window.location.href = `${isDev ? 'http://localhost:4000' : ''}/auth/google`
 
   const getUser = useCallback(async () => {
     try {
@@ -45,7 +45,6 @@ export const useUserActions = (dispatch: React.Dispatch<USER_ACTIONS>) => {
     (async () => {
       await getUser()
     })()
-    
   }, [getUser])
 
   return { signInUser, signOutUser, getUser, setWords }

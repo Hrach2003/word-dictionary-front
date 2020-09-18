@@ -10,7 +10,7 @@ export const Word = () => {
   const history = useHistory()
   const { userState } = useStore()
   const { condition, addWord } = useAddWord()
-  const { word } = useParams()
+  const { word } = useParams() as { word: string }
   const read = useSpeech(word as string)
 
   const includes = useMemo(() => {
@@ -50,7 +50,7 @@ export const Word = () => {
             </button>
             <button className="btn bg-green-700 text-base w-8 h-8 ml-1" onClick={() => addWord(word as string)}> 
               {condition.loading && <i className="animate-spin fas fa-circle-notch"></i>}
-              {!includes && !condition.loading && !condition.finished && <i className="fas fa-plus-circle"></i>}
+              {!includes && !condition.loading && <i className="fas fa-plus-circle"></i>}
               {includes && !condition.loading && <i className="fas fa-bookmark"></i>}
             </button> 
           </div> 
@@ -78,7 +78,7 @@ export const Word = () => {
       </div>
 
       <div className="mx-4 overflow-hidden">
-        <h1 className="text-lg font-semibold text-center">Definitions</h1> 
+        <h1 className="sticky top-0 text-lg font-semibold text-center">Definitions</h1> 
         <div className="flex flex-wrap transition-height duration-1000 ease-in justify-center">
           {wordFullInfo?.definitions && wordFullInfo.definitions.map(({definition}, idx) => {
             return <div key={idx} className="text-justify w-full  mx-1 mt-1 bg-gray-400 shadow px-3 py-1">
@@ -94,7 +94,7 @@ export const Word = () => {
       </div>    
 
       <div className="mx-4 overflow-hidden">
-        <h1 className="text-lg font-semibold text-center">Examples</h1> 
+        <h1 className="sticky top-0 text-lg font-semibold text-center">Examples</h1> 
         <div className="flex flex-wrap transition-height duration-1000 ease-in justify-center">
           {wordFullInfo?.examples && wordFullInfo.examples.map(({ text }, idx) => {
             return <div key={idx} className="text-justify w-full  mx-1 mt-1 bg-gray-400 shadow px-3 py-1">

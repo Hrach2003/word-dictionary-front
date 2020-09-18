@@ -1,4 +1,4 @@
-import React, { useMemo, useState, useEffect, useCallback } from 'react'
+import React, { useState, useCallback } from 'react'
 import { useHistory } from 'react-router-dom'
 import { useStore } from '../store/main'
 import { getWordSynonyms } from '../hooks/useGetWord'

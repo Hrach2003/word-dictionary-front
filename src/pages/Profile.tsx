@@ -24,11 +24,11 @@ export const Profile = () => {
           <span className="font-semibold text-gray-800">{userState.user?.words.length}</span> 
         </div>
 
-        <button>
-          <Link to={`/exercizes/${userState.words[0].word}`} className="text-center mt-3 btn bg-teal-700 px-3 py-2 rounded-full">
-            Start Learning!
-          </Link>
-        </button>
+        <Link to={`/exercises/guesswords/${userState.words[userState.words.length - 1].word}`}>
+          <button className="text-center mt-3 btn bg-teal-700 px-3 py-2 rounded-full">
+              Start Learning!
+          </button>
+        </Link>
       </div>
       <div className="mt-4 w-11/12 mx-auto">
         <span className="font-semibold text-gray-800 text-lg block">Words to learn</span> 

@@ -25,6 +25,7 @@ export const SignIn = () => {
           <img 
             src="https://banner2.cleanpng.com/20180723/btg/kisspng-google-logo-google-search-google-images-g-suite-google-adwords-5b5695e47fdc94.0743248315324011245237.jpg" 
             className="h-full"
+            alt="google banner"
           />
         </div>
         <span className="mx-auto text-gray-800 text-lg font-medium" > 

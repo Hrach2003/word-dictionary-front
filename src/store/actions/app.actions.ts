@@ -19,7 +19,7 @@ export const useAppActions = (dispatch: React.Dispatch<APP_ACTIONS>) => {
 
   const getWords = useCallback(async () => {
     try {
-      const { data }: { data: {words: IWord[]} }  = await APIService(`/words?limit=10&page=${Math.floor(Math.random() * 30)}`)
+      const { data }: { data: {words: IWord[]} }  = await APIService(`/words?limit=10&page=${Math.floor(Math.random() * 100)}`)
       setWords(data.words)
     } catch (error) {
       dispatch({

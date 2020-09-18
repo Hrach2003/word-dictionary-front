@@ -1,6 +1,6 @@
 import React from 'react'
 import classnames from 'classnames'
-import { Link, NavLink } from 'react-router-dom'
+import { NavLink } from 'react-router-dom'
 import { useStore } from '../store/main'
 
 export const BottomNavigation = () => {

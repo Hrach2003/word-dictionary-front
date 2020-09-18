@@ -38,7 +38,7 @@ const userReducer = (state: USER_STATE = userInitialState, action: USER_ACTIONS)
     case USER.SET_WORDS:
       return {
         ...state,
-        words: action.payload.words
+        words: [...action.payload.words.reverse(), ...state.words]
       }      
       
     default: return state
