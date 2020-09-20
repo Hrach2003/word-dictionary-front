@@ -1,8 +1,8 @@
 import React from 'react'
-import { useStore } from '../store/main'
+import { useUserNampespace } from '../store/main'
 
 export const SignIn = () => {
-  const { signInUser } = useStore()
+  const { signInUser } = useUserNampespace()!
   return (
     <div className="pt-20">
       <div className="w-10/12 mx-auto">

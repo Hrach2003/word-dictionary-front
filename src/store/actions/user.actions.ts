@@ -1,10 +1,9 @@
 import { useEffect, useCallback } from 'react';
-import { USER_ACTIONS, IUser, USER, IWord } from './../types/index';
+import { USER_ACTIONS, IUser, IWord } from './../types/index';
 import APIService from '../../services/ApiService';
 
 export const useUserActions = (dispatch: React.Dispatch<USER_ACTIONS>) => {
   const isDev = process.env.NODE_ENV === 'development'
-
   const signInUser = () => window.location.href = `${isDev ? 'http://localhost:4000' : ''}/auth/google`
 
   const getUser = useCallback(async () => {
@@ -13,31 +12,38 @@ export const useUserActions = (dispatch: React.Dispatch<USER_ACTIONS>) => {
       if(data?.user) {
         console.log('logged in')
         dispatch({
-          type: USER.SET_USER,
+          type: "SET_USER",
           payload: { user: data.user }
         })
       } 
     } catch (error) {
-      dispatch({ type: USER.SIGN_OUT })
+      dispatch({ type: "SIGN_OUT" })
     }
   }, [dispatch])
   
   const signOutUser = useCallback(async () => {
     try {
-      dispatch({ type: USER.SET_LOADING })
+      dispatch({ type: "SET_LOADING" })
       await APIService('/auth/logout')
-      dispatch({ type: USER.SIGN_OUT })
+      dispatch({ type: "SIGN_OUT" })
     } catch (error) {
-      dispatch({ type: USER.SIGN_OUT }) 
+      dispatch({ type: "SIGN_OUT" }) 
     } finally {
-      dispatch({ type: USER.SET_FINISHED })
+      dispatch({ type: "SET_FINISHED" })
     }
   }, [dispatch])
 
-  const setWords = useCallback((words: IWord[]) => {
+  const setUserWords = useCallback((words: IWord[]) => {
     dispatch({
-      type: USER.SET_WORDS,
+      type: "SET_WORDS",
       payload: { words }
+    })
+  }, [dispatch])
+
+  const setUserLearningWords = useCallback((learning: IWord[]) => {
+    dispatch({
+      type: 'SET_LEARNING_WORDS',
+      payload: { learning }
     })
   }, [dispatch])
 
@@ -47,5 +53,5 @@ export const useUserActions = (dispatch: React.Dispatch<USER_ACTIONS>) => {
     })()
   }, [getUser])
 
-  return { signInUser, signOutUser, getUser, setWords }
+  return { signInUser, signOutUser, getUser, setUserWords, setUserLearningWords }
 }

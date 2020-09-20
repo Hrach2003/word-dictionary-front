@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { useStore } from '../store/main'
+import { useAppNampespace } from '../store/main'
 import { useInputBind } from '../hooks/useInputBind'
 // import { useHistory } from 'react-router-dom'
 import { WordBox } from '../components/WordBox'
@@ -8,7 +8,7 @@ import { WordBox } from '../components/WordBox'
 export const Index = () => {
   // const history = useHistory()
   const postInput = useInputBind()
-  const { appState, getWords } = useStore()
+  const { appState, getAppWords } = useAppNampespace()!
   // const clickHandler = () => {
   //   if(postInput.value) {
   //     // createPost({ word: postInput.value, _id: Date.now().toString() })
@@ -19,10 +19,10 @@ export const Index = () => {
   useEffect(() => {
     (async () => {
       if(!appState.words.length) {
-        await getWords()
+        await getAppWords()
       }
     })()
-  }, [appState.words.length, getWords])
+  }, [appState.words.length, getAppWords])
 
   // if(appState.words.length) return <p>Loading ...</p>
 
@@ -34,7 +34,6 @@ export const Index = () => {
           return <WordBox word={word} key={word._id} />
         })}
       </div>
-      
     </div>
   )
 }

@@ -1,15 +1,15 @@
 import React, { useEffect, useMemo, useState } from 'react'
-import { useAddWord } from '../hooks/useAddWord'
+import { useUserAddWord } from '../hooks/useUserAddWord'
 import { useSpeech } from '../hooks/useSpeech'
-import { useStore } from '../store/main'
+import { useAppNampespace } from '../store/main'
 
 interface IWordCarouse {
   onChange?: (word: string) => void
 }
 
 export const WordsCarousel: React.FC<IWordCarouse> = ({ onChange = () => {} }) => {
-  const { appState, getWords } = useStore()
-  const { addWord, condition, } = useAddWord()
+  const { appState, getAppWords } = useAppNampespace()!
+  const { addWord, condition } = useUserAddWord()
 
   const [idx, setIdx] = useState(0)
   const word = useMemo(() => {
@@ -20,10 +20,10 @@ export const WordsCarousel: React.FC<IWordCarouse> = ({ onChange = () => {} }) =
   useEffect(() => {
     (async () => {
       if(!word) {
-        await getWords()
+        await getAppWords()
       }
     })()
-  }, [getWords, word])
+  }, [getAppWords, word])
 
   useEffect(() => {
     onChange(word)

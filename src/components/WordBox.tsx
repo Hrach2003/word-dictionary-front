@@ -1,17 +1,19 @@
 import React, { useMemo } from 'react'
-import { useStore } from '../store/main'
+import { useAppNampespace, useUserNampespace } from '../store/main'
 import { IWord } from '../store/types'
 import { useSpeech } from '../hooks/useSpeech'
 import { Link } from 'react-router-dom'
-import { useAddWord } from '../hooks/useAddWord'
+import { useUserAddWord } from '../hooks/useUserAddWord'
 
 interface IWordBox {
   word: IWord
 }
 
 export const WordBox: React.FC<IWordBox> = ({ word }) => {
-  const { deletePost, userState } = useStore()
-  const { condition, addWord } = useAddWord()
+  const { userState } = useUserNampespace()!
+  const { deleteAppPost } = useAppNampespace()!
+
+  const { condition, addWord } = useUserAddWord()
   const read = useSpeech(word.word)
   const includes = useMemo(() => {
     return userState.words.some(({_id}) => _id === word._id )
@@ -23,6 +25,7 @@ export const WordBox: React.FC<IWordBox> = ({ word }) => {
         <div className="flex justify-end items-center">
           <span onClick={(e) => {
             e.stopPropagation()
+            e.preventDefault()
             read()
           }} className="bg-gray-700 cursor-pointer text-white rounded-full mt-1 mr-1 w-6 h-6 flex items-center justify-center">
             <i className="fas fa-volume-up text-xs"></i>  
@@ -34,6 +37,7 @@ export const WordBox: React.FC<IWordBox> = ({ word }) => {
         <div className="flex justify-end mb-1">
           <button className="btn bg-green-700 text-xs px-2 py-1 mr-1" onClick={(e) => {
             e.stopPropagation()
+            e.preventDefault()
             addWord(word.word)
           }} > 
             {condition.loading && <i className="animate-spin fas fa-circle-notch"></i>}
@@ -42,7 +46,8 @@ export const WordBox: React.FC<IWordBox> = ({ word }) => {
           </button>  
           <button className="btn btn-red text-xs px-2 py-1 mr-1" onClick={(e) => {
             e.stopPropagation()
-            deletePost(word._id)} 
+            e.preventDefault()
+            deleteAppPost(word._id)} 
           }> 
             <i className="fas fa-trash-alt"></i>
           </button>

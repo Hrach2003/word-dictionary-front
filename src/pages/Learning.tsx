@@ -1,11 +1,11 @@
-import React, { useMemo, useState } from 'react'
-import classnames from 'classnames'
+import React, { useMemo } from 'react'
 import { Link, useHistory } from 'react-router-dom'
 import { WordsCarousel } from '../components/WordsCarousel'
-import { useStore } from '../store/main'
+import { useAppNampespace, useUserNampespace } from '../store/main'
 
 export const Learning = () => {
-  const { userState, appState } = useStore()
+  const { appState } = useAppNampespace()!
+  const { userState } = useUserNampespace()!
   const history = useHistory()
 
   const words = useMemo(() => {
@@ -32,27 +32,27 @@ export const Learning = () => {
       <hr className="w-11/12 h-px mx-auto rounded-lg bg-gray-500"/>
       <div className="w-11/12 mx-auto flex justify-center mt-4">
         <Link to={`/exercises/guesswords/${words[words.length - 1]?.word}`}>
-          <div className="w-32 h-32 -mr-4 rounded-full shadow-2xl border border-dotted border-gray-300 bg-teal-600 flex items-center justify-center text-xl text-gray-300">
+          <div className="w-32 h-32 -mr-4 rounded-full shadow-2xl border border-dotted border-gray-300 bg-green-600 flex items-center justify-center text-xl text-gray-300">
             Guess <br /> Words
           </div>
         </Link>
 
-        <Link to={`/exercises/matchsynonyms/${words[0]?.word}`}>
+        <Link to={`/exercises/matchsynonyms`}>
           <div className="w-32 h-32 -mr-4 rounded-full shadow-2xl border border-dotted border-gray-300 bg-teal-600 flex items-center justify-center text-xl text-gray-300">
             Match <br /> Synonyms
           </div>
         </Link>
       </div>
       <div className="w-11/12 mx-auto flex justify-center -mt-4">
-        <Link to={`/exercises/${words[words.length - 1]?.word}`} className="z-10">
+        <Link to="/suggested" className="z-10">
           <div className="w-32 h-32 -mr-4 rounded-full shadow-2xl border border-dotted border-gray-300 bg-teal-600 flex items-center justify-center text-xl text-gray-300">
-            Guess <br /> Words
+            Suggested <br /> Words
           </div>
         </Link>
 
         <Link to={`/exercises/${words[0]?.word}`} className="z-0">
-          <div className="w-32 h-32 -mr-4 rounded-full shadow-2xl border z-0 border-dotted border-gray-300 bg-teal-600 flex items-center justify-center text-xl text-gray-300">
-            Match <br /> Synonyms
+          <div className="w-32 h-32 -mr-4 rounded-full shadow-2xl border z-0 border-dotted border-gray-300 bg-green-600 flex items-center justify-center text-xl text-gray-300">
+            Audio <br /> Books
           </div>
         </Link>
       </div>

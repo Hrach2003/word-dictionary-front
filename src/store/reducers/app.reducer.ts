@@ -1,29 +1,29 @@
 import { useReducer } from 'react';
-import { APP_STATE, APP_ACTIONS, APP } from '../types';
+import { APP_STATE, APP_ACTIONS } from '../types';
 import { useAppActions } from '../actions/app.actions';
 
-const appInitialState: APP_STATE = {
+export const appInitialState: APP_STATE = {
   words: [],
   error: [],
 }
 const appReducer = (state: APP_STATE = appInitialState, action: APP_ACTIONS): APP_STATE => {
   switch (action.type) {
-    case APP.CREATE_WORD: 
+    case  'APP_CREATE_WORD': 
       return {
         ...state,
         words: [...state.words, action.payload.word]
       }
-    case APP.DELETE_WORD:
+    case 'APP_DELETE_WORD':
       return {
         ...state,
         words: state.words.filter(word => word._id !== action.payload._id)
       }
-    case APP.SET_WORDS:
+    case 'APP_SET_WORD':
       return {
         ...state,
         words: [...state.words, ...action.payload.words]
       }
-    case APP.SET_ERROR: 
+    case 'APP_SET_ERROR': 
       return {
         ...state,
         error: [...state.error, action.payload.error]

@@ -1,19 +1,19 @@
-import React, { HTMLAttributes, useEffect, useMemo, useReducer, useState } from 'react'
+import React, { HTMLAttributes, useEffect, useMemo, useReducer, useRef, useState } from 'react'
 import classnames from 'classnames'
 import { useHistory } from 'react-router-dom'
 import APIService from '../services/ApiService'
-import { useStore } from '../store/main'
+import { useAppNampespace, useUserNampespace } from '../store/main'
 import { IWord } from '../store/types'
+import { PointerLoading } from '../components/PointerLoading'
 
 interface IBox extends HTMLAttributes<HTMLElement> { 
   type: 'synonym' | 'word', 
-  error?: boolean
+  error?: boolean,
+  active: boolean
 }
-const Box: React.FC<IBox> = React.memo(({ children, type, error = false, ...props }) => {
-  const [active, setActive] = useState<boolean>()
-
+const Box: React.FC<IBox> = React.memo(({ children, type, error = false, active, ...props }) => {
   const isWord = type === 'word'
-  return <div {...props} onClick={() => setActive(a => !a)} className={classnames('py-3 relative transform duration-150 text-gray-300 shadow-md mt-2 rounded-lg', {
+  return <div {...props} className={classnames('py-3 relative transform duration-150 text-gray-300 shadow-md mt-2 rounded-lg', {
     'z-10 scale-110 shadow-2xl': active,
     'scale-100': !active,
     'bg-indigo-700': isWord && !error,
@@ -24,27 +24,45 @@ const Box: React.FC<IBox> = React.memo(({ children, type, error = false, ...prop
   
 
 
-type _ = 'LOCAL/ADD_SYNONYMS'
+type _ = 'LOCAL/ADD_SYNONYMS' | 'LOCAL/SET_ACTIVE_SYNONYM' | 'LOCAL/SET_ACTIVE_WORD' | 'LOCAL/SET_LOADING'
 type LocalState = {
   wordWithSynonyms: { [key: string]: IWord },
   error: string[],
+  active_word: string,
+  active_synonym: string,
+  loading: boolean
 }
 
 const localState: LocalState = {
   wordWithSynonyms: {},
-  error: []
+  error: [],
+  active_synonym: '',
+  active_word: '',
+  loading: false 
 }
 
-const reducer = (state: LocalState, action: { type: _, payload?: any }): LocalState => {
+const reducer = (state: LocalState, action: { type: _, payload?: any }): typeof localState => {
   switch (action.type) {
     case 'LOCAL/ADD_SYNONYMS': 
       return {
         ...state,
         wordWithSynonyms: { 
           ...state.wordWithSynonyms, 
-          [action.payload.word] : action.payload.synonyms[Math.floor(action.payload.synonyms.length * Math.random() / 2)] 
+          [action.payload.word] : action.payload.synonyms[Math.floor(action.payload.synonyms.length * Math.random())] 
         }
       }
+    case 'LOCAL/SET_ACTIVE_SYNONYM': 
+      return {
+        ...state, active_synonym: action.payload
+      }
+    case 'LOCAL/SET_ACTIVE_WORD': 
+      return {
+        ...state, active_word: action.payload
+      }  
+    case 'LOCAL/SET_LOADING':
+      return {
+        ...state, loading: action.payload
+      }      
     default:
       return state;
   }
@@ -60,24 +78,51 @@ async function* getWordsSynonyms(words: IWord[]) {
 
 export const MatchSynonyms = () => {
   const history = useHistory()
-  const { userState, appState } = useStore()
+  const { appState } = useAppNampespace()!
+  const { userState } = useUserNampespace()!
   const words = useMemo(() => {
     return userState.authorized ? userState.words : appState.words
   }, [appState.words, userState.authorized, userState.words])
 
   const [{
-    wordWithSynonyms
+    wordWithSynonyms,
+    active_synonym,
+    active_word,
+    loading
   }, dispatch] = useReducer(reducer, localState)
+
+  const synonyms = useMemo(() => {
+    return Object.values(wordWithSynonyms)
+        .sort(() => Math.random() > 0.6 ? 1 : -1)
+        .map(s => s.word) 
+  }, [wordWithSynonyms])
+
+  const wordsToMatch = useMemo(() => {
+    return Object.keys(wordWithSynonyms)
+  }, [wordWithSynonyms])
+
+  useEffect(() => {
+    (() => {
+      if(loading) return;
+      if(wordWithSynonyms[active_word]?.word === active_synonym) {
+        alert(true)
+      } else {
+        console.log('not equal')
+      }
+    })()
+  }, [active_synonym, active_word, loading, wordWithSynonyms])
 
   useEffect(() => {
     (async () => {
       const synonymGen = getWordsSynonyms(words)
+      dispatch({ type: 'LOCAL/SET_LOADING', payload: true })
       for await (const { word, synonyms } of synonymGen) {
         dispatch({
           type: 'LOCAL/ADD_SYNONYMS',
           payload: { word: word.word, synonyms }
         })
       }
+      dispatch({ type: 'LOCAL/SET_LOADING', payload: false })
     })() 
   }, [words])
    
@@ -95,29 +140,42 @@ export const MatchSynonyms = () => {
         <div className=" grid grid-cols-2 gap-x-1">
           <div>
             <h3 className="text-lg font-semibold text-gray-800">Words</h3>
-            {Object.keys(wordWithSynonyms)
-              .sort(() => Math.random() > 0.6 ? 1 : -1)
+            {wordsToMatch
               .map((word) => {
-                return <Box key={word} type="word">
+                return <Box key={word} type="word" active={active_word === word} onClick={() => {
+                  dispatch({ 
+                    type: 'LOCAL/SET_ACTIVE_WORD', 
+                    payload: word 
+                  }) 
+                }}>
                   {word}
                 </Box> 
               })
             }
+
+            {loading && <div className="flex items-center justify-center h-10">
+              <PointerLoading />
+            </div>}
           </div>
           <div>  
             <h3 className="text-lg font-semibold text-gray-800">Synonyms</h3>
-            {Object.values(wordWithSynonyms)
-              .sort(() => Math.random() > 0.6 ? 1 : -1)
-              .map((synonyms, idx) => {
-                return <Box key={idx} type="synonym">
-                  {synonyms.word}
-                </Box>
+            {synonyms
+              // .sort(() => Math.random() > 0.6 ? 1 : -1)
+              .map((synonym, idx) => {
+                return <Box key={idx} type="synonym" active={active_synonym === synonym} onClick={() => {
+                  dispatch({ 
+                    type: 'LOCAL/SET_ACTIVE_SYNONYM', 
+                    payload: synonym
+                  }) 
+                }}>{synonym}</Box>
               })
             }
+            {loading && <div className="flex items-center justify-center h-10">
+              <PointerLoading />
+            </div>}
           </div>
         </div>
       </div>                
     </>
-
   )
 }

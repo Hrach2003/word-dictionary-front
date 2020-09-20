@@ -1,5 +1,5 @@
 import React, { useMemo, useEffect, useState, useRef, useCallback, useReducer } from 'react'
-import { useStore } from '../store/main'
+import { useAppNampespace, useUserNampespace } from '../store/main'
 import { getWord } from '../hooks/useGetWord'
 import { IWord } from '../store/types'
 import { useParams, useHistory } from 'react-router-dom'
@@ -39,15 +39,20 @@ const reducer = (state: LocalState, action: { type: _, payload?: any }): LocalSt
 export const GuessWord = () => {
   const { word: wordURL } = useParams() as { word: string }
   const history = useHistory()
-  const { userState, appState } = useStore()
-  const words = (() => {
-    return userState.authorized ? userState.words.reverse() : appState.words.reverse() 
-  })()  
+  
+  const { appState } = useAppNampespace()!
+  const { userState } = useUserNampespace()!
+  
+  const words = useMemo(() => {
+    return userState.authorized ? userState.learning : appState.words 
+  }, [appState.words, userState.authorized, userState.learning])  
+
+  
 
   const nextWord = useMemo(() => {
-    for (let i = words.length - 1; i > 0 ; i--) {
+    for (let i = 0; i < words.length; i++) {
       const { word } = words[i];
-      if(word === wordURL) return words[(i - 1) % words.length]
+      if(word === wordURL) return words[(i + 1) % words.length]
     }
     return words[words.length - 1]
   }, [words, wordURL])
@@ -148,6 +153,8 @@ export const GuessWord = () => {
     return () => document.removeEventListener('keydown', handleKeyDown)
   }, [checkLetter])
 
+
+  // if(words.length < 5) 
   return (
     <>
       <div className="w-11/12 mx-auto py-1 h-16 flex items-center">
@@ -168,7 +175,7 @@ export const GuessWord = () => {
         <div className="bg-gray-200 h-full shadow-lg w-11/12 mx-auto overflow-hidden relative pt-3 pb-2 px-1 rounded-md">
           <div className="absolute top-0 inset-x-0">
             <div className="h-1 relative bg-gray-500 overflow-hidden rounded-full">
-              {wordIdx && <span style={{ width: `${(words.length - wordIdx) * 100 / words.length}%` }} className="h-1 rounded-full absolute transition-width duration-300 ease-in-out inset-y-0 left-0 bg-teal-700 w-full"/>}
+              {wordIdx && <span style={{ width: `${wordIdx * 100 / words.length}%` }} className="h-1 rounded-full absolute transition-width duration-300 ease-in-out inset-y-0 left-0 bg-teal-700 w-full"/>}
             </div>     
           </div> 
           <div className="text-gray-700 text-center text-lg tracking-wider">

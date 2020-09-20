@@ -1,42 +1,36 @@
-import { APP_ACTIONS, IWord, APP } from './../types/index';
+import { APP_ACTIONS, IWord } from './../types/index';
 import { useCallback } from 'react';
 import APIService from '../../services/ApiService';
 
-export const useAppActions = (dispatch: React.Dispatch<APP_ACTIONS>) => {
-  const createPost = (word: IWord) => {
-    dispatch({
-      type: APP.CREATE_WORD,
-      payload: { word }
-    })
-  }
 
-  const setWords = useCallback((words: IWord[]) => {
+export const useAppActions = (dispatch: React.Dispatch<APP_ACTIONS>) => {
+  const setAppWords = useCallback((words: IWord[]) => {
     dispatch({
-        type: APP.SET_WORDS,
+        type: 'APP_SET_WORD',
         payload: { words }
     })
   }, [dispatch])
 
-  const getWords = useCallback(async () => {
+  const getAppWords = useCallback(async () => {
     try {
       const { data }: { data: {words: IWord[]} }  = await APIService(`/words?limit=10&page=${Math.floor(Math.random() * 100)}`)
-      setWords(data.words)
+      setAppWords(data.words)
     } catch (error) {
       dispatch({
-        type: APP.SET_ERROR,
+        type: 'APP_SET_ERROR',
         payload: { error }
       })
     }
-  }, [dispatch, setWords])
+  }, [dispatch, setAppWords])
 
 
-  const deletePost = (wordId: string) => {
+  const deleteAppPost = (wordId: string) => {
     dispatch({
-      type: APP.DELETE_WORD,
+      type: 'APP_DELETE_WORD',
       payload: { _id: wordId }
     })
   }
   return {
-    createPost, deletePost, getWords, setWords
+    deleteAppPost, getAppWords, setAppWords
   }
 }

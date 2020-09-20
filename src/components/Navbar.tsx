@@ -1,12 +1,12 @@
 import React, { useState } from 'react'
 import classnames from 'classnames'
-import { useStore } from '../store/main'
+import { useUserNampespace } from '../store/main'
 import { useHistory } from 'react-router-dom'
 
 
 export const Navbar = () => {
   const history = useHistory()
-  const { userState, signOutUser } = useStore()
+  const { userState, signOutUser } = useUserNampespace()!
   const [dropdownActive, setDropdownActive] = useState(false)
 
   const goTo = (path: string) => {

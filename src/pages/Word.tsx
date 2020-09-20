@@ -1,15 +1,15 @@
 import React, { useState, useMemo, useCallback, useEffect } from 'react'
 import { useParams, useHistory } from 'react-router-dom'
-import { useStore } from '../store/main'
+import { useUserNampespace } from '../store/main'
 import { IWord } from '../store/types'
 import { useSpeech } from '../hooks/useSpeech'
-import { useAddWord } from '../hooks/useAddWord'
+import { useUserAddWord } from '../hooks/useUserAddWord'
 import APIService from '../services/ApiService'
 
 export const Word = () => {
   const history = useHistory()
-  const { userState } = useStore()
-  const { condition, addWord } = useAddWord()
+  const { userState } = useUserNampespace()!
+  const { condition, addWord } = useUserAddWord()
   const { word } = useParams() as { word: string }
   const read = useSpeech(word as string)
 

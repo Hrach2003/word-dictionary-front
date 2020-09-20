@@ -1,46 +1,62 @@
 import { useUserActions } from './../actions/user.actions';
-import { USER_ACTIONS, USER_STATE, USER } from '../types';
+import { USER_ACTIONS, USER_STATE } from '../types';
 import { useReducer } from 'react';
 
 
-const userInitialState: USER_STATE = {
+export const userInitialState: USER_STATE = {
   authorized: false,
   user: null,
   loading: false,
+  learning: [],
   words: []
 }
 
 const userReducer = (state: USER_STATE = userInitialState, action: USER_ACTIONS): USER_STATE => {
   switch (action.type) {
-    case USER.SET_USER:
+    case "SET_USER":
       return {
         ...state,
         authorized: true,
         user: action.payload.user,
-        words: action.payload.user.words
+        words: action.payload.user.words,
+        learning: action.payload.user.learning
       }
-    case USER.SIGN_OUT:
+    case "SIGN_OUT":
       return {
         ...state,
         user: null,
         authorized: false
       } 
-    case USER.SET_LOADING:
+    case "SET_LOADING":
       return {
         ...state,
         loading: true
       }
-    case USER.SET_FINISHED:
+    case "SET_FINISHED":
       return {
         ...state,
         loading: false
       } 
-    case USER.SET_WORDS:
+    case "SET_WORDS":
       return {
         ...state,
-        words: [...action.payload.words.reverse(), ...state.words]
-      }      
-      
+        words: action.payload.words
+      }  
+    case "ADD_WORD":
+      return {
+        ...state,
+        words: [...state.words, action.payload.word]
+      }
+    case "ADD_LEARNING_WORD":
+      return {
+        ...state,
+        learning: [...state.learning, action.payload.learning]
+      } 
+    case "SET_LEARNING_WORDS":
+      return {
+        ...state,
+        learning: state.learning
+      }             
     default: return state
   }
 }

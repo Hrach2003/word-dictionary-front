@@ -1,7 +1,7 @@
 import React, { lazy, Suspense } from 'react'
 import { Route, Switch, Redirect  } from 'react-router-dom'
 
-import { useStore } from '../store/main'
+import { useUserNampespace } from '../store/main'
 import { Default } from '../layout/Default'
 import { Empty } from '../layout/Empty'
 import { Opening } from '../components/Opening'
@@ -24,7 +24,7 @@ const SuspensedPage: React.FC<{}> = ({ children }) => (
   </Suspense>)
 
 export const Routes: React.FC<{}> = () => {
-  const { userState } = useStore()
+  const { userState } = useUserNampespace()!
   return (
     <Switch>
       <Route exact path="/"> 
@@ -42,7 +42,7 @@ export const Routes: React.FC<{}> = () => {
           <SuspensedPage children={<GuessWord />} />
         </Empty>
       </Route>
-      <Route path="/exercises/matchsynonyms/:word"> 
+      <Route path="/exercises/matchsynonyms"> 
         <Empty>
           <SuspensedPage children={<MatchSynonyms />} />
         </Empty>

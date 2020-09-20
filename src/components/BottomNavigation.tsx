@@ -1,10 +1,10 @@
 import React from 'react'
 import classnames from 'classnames'
 import { NavLink } from 'react-router-dom'
-import { useStore } from '../store/main'
+import { useUserNampespace } from '../store/main'
 
 export const BottomNavigation = () => {
-  const { userState } = useStore()
+  const { userState } = useUserNampespace()!!
   return (
     <div className={classnames('fixed grid shadow-2xl divide-x-2 rounded-t divide-gray-300 bg-teal-800 inset-x-0 bottom-0 h-12 items-center justify-around text-gray-300', {
       'grid-cols-3': !userState.authorized,
