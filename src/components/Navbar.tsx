@@ -9,16 +9,12 @@ export const Navbar = () => {
   const { userState, signOutUser } = useUserNampespace()!
   const [dropdownActive, setDropdownActive] = useState(false)
 
-  const goTo = (path: string) => {
-    history.push(path)
-  }
+  const goTo = history.push
   const logout = () => {
-    signOutUser().finally(() => {
-      goTo('/')
-    })
+    signOutUser().finally(() => goTo('/'))
   }
   return (
-    <div className="bg-teal-800 h-16 text-gray-100 fixed inset-x-0 top-0">
+    <div className="bg-teal-800 h-16 text-gray-100 fixed z-50 shadow-2xl inset-x-0 top-0">
       <div className="w-11/12 mx-auto flex justify-between items-center h-full">
         <div>
           <h1 className=" font-bold text-lg capitalize flex items-center">
@@ -53,12 +49,18 @@ export const Navbar = () => {
                     </span>}
                   </div>
                   <div 
-                    onClick={() => goTo('/profile')} 
+                    onClick={() => {
+                      setDropdownActive(d => !d)
+                      goTo('/profile')
+                    }} 
                     className="flex justify-center items-center cursor-pointer hover:bg-teal-700 py-1 hover:text-gray-100 focus:bg-teal-700 focus:text-gray-100"
                   >
                     <span>Profile</span>
                   </div></>
-                : <div onClick={() => goTo('/login')} className=" cursor-pointer hover:bg-teal-700 py-1 hover:text-gray-100 focus:bg-teal-700 focus:text-gray-100">Sign In</div>
+                : <div onClick={() => {
+                  setDropdownActive(d => !d)
+                  goTo('/login')
+                }} className=" cursor-pointer hover:bg-teal-700 py-1 hover:text-gray-100 focus:bg-teal-700 focus:text-gray-100">Sign In</div>
               }
             </div>
           </div>

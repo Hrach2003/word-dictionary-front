@@ -30,6 +30,8 @@ export const Learning = () => {
         </div> 
       </div>
       <hr className="w-11/12 h-px mx-auto rounded-lg bg-gray-500"/>
+      <div className="h-56 bg-contain bg-no-repeat bg-center" style={{ backgroundImage: `url(${require('./../assets/education.png')})` }} />
+
       <div className="w-11/12 mx-auto flex justify-center mt-4">
         <Link to={`/exercises/guesswords/${words[words.length - 1]?.word}`}>
           <div className="w-32 h-32 -mr-4 rounded-full shadow-2xl border border-dotted border-gray-300 bg-green-600 flex items-center justify-center text-xl text-gray-300">
@@ -50,9 +52,9 @@ export const Learning = () => {
           </div>
         </Link>
 
-        <Link to={`/exercises/${words[0]?.word}`} className="z-0">
+        <Link to={`/booklist`} className="z-0">
           <div className="w-32 h-32 -mr-4 rounded-full shadow-2xl border z-0 border-dotted border-gray-300 bg-green-600 flex items-center justify-center text-xl text-gray-300">
-            Audio <br /> Books
+            Books <br /> List
           </div>
         </Link>
       </div>

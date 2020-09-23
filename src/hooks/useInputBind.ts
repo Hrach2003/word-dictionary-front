@@ -1,7 +1,7 @@
 import { useState, ChangeEvent } from "react"
 
-export const useInputBind = () => {
-  const [value, setValue] = useState('')
+export const useInputBind = (defaultValue?: any) => {
+  const [value, setValue] = useState(defaultValue)
   const onChange = (e: ChangeEvent<HTMLInputElement>) => {
     setValue(e.target.value)
   }

@@ -39,7 +39,8 @@ export const SuggestedWords = () => {
         </div> 
       </div>
       <hr className="w-11/12 h-px mx-auto rounded-lg bg-gray-500"/>
-
+      <div className="h-40 bg-contain bg-no-repeat mt-1 bg-center" style={{ backgroundImage: `url(${require('./../assets/messaging.png')})` }}>
+      </div>
 
       <WordsCarousel onChange={handleWordChange} />
         <div className="mt-4 w-11/12 mx-auto">

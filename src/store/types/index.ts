@@ -23,13 +23,15 @@ export interface IUser {
 
 export type APP_STATE = {
   words: IWord[],
-  error: Error[]
+  error: Error[],
+  books: { name: string, url: string }[]
 }
 export type APP_ACTIONS = 
   { type: 'APP_CREATE_WORD', payload: { word: IWord }}  | 
   { type: 'APP_DELETE_WORD', payload: { _id: string } }  |
-  { type: 'APP_SET_WORD', payload: { words: IWord[] }} |  
-  { type: 'APP_SET_ERROR', payload: { error: Error }}  
+  { type: 'APP_SET_WORD', payload: { words: IWord[] }} |   
+  { type: 'APP_SET_ERROR', payload: { error: Error }} |
+  { type: 'APP_SET_BOOKS', payload: { books: APP_STATE['books'] }}  
 
 export type APP = APP_ACTIONS['type']
 

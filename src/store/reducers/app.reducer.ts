@@ -5,6 +5,7 @@ import { useAppActions } from '../actions/app.actions';
 export const appInitialState: APP_STATE = {
   words: [],
   error: [],
+  books: []
 }
 const appReducer = (state: APP_STATE = appInitialState, action: APP_ACTIONS): APP_STATE => {
   switch (action.type) {
@@ -27,7 +28,12 @@ const appReducer = (state: APP_STATE = appInitialState, action: APP_ACTIONS): AP
       return {
         ...state,
         error: [...state.error, action.payload.error]
-      }            
+      } 
+    case 'APP_SET_BOOKS': 
+      return {
+        ...state,
+        books: action.payload.books
+      }             
     default:
       return state
   }

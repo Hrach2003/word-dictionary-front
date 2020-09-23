@@ -1,4 +1,4 @@
-import { APP_ACTIONS, IWord } from './../types/index';
+import { APP_ACTIONS, APP_STATE, IWord } from './../types/index';
 import { useCallback } from 'react';
 import APIService from '../../services/ApiService';
 
@@ -23,6 +23,20 @@ export const useAppActions = (dispatch: React.Dispatch<APP_ACTIONS>) => {
     }
   }, [dispatch, setAppWords])
 
+  const setAppBooks = useCallback(async () => {
+    try {
+      const { data: books }: { data: APP_STATE['books'] } = await APIService('/books')
+      dispatch({
+        type: 'APP_SET_BOOKS',
+        payload: { books }
+      })
+    } catch (error) {
+      dispatch({
+        type: 'APP_SET_ERROR',
+        payload: { error }
+      })
+    }
+  }, [dispatch])
 
   const deleteAppPost = (wordId: string) => {
     dispatch({
@@ -31,6 +45,6 @@ export const useAppActions = (dispatch: React.Dispatch<APP_ACTIONS>) => {
     })
   }
   return {
-    deleteAppPost, getAppWords, setAppWords
+    deleteAppPost, getAppWords, setAppWords, setAppBooks
   }
 }

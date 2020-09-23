@@ -1,5 +1,5 @@
 import React, { createContext, useContext } from 'react'
-import useUserReducer from './reducers/user.reduser'
+import useUserReducer from './reducers/user.reducer'
 import useAppReducer from './reducers/app.reducer'
 import { IStore } from './types'
 

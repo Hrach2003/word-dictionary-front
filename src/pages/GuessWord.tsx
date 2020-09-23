@@ -6,6 +6,7 @@ import { useParams, useHistory } from 'react-router-dom'
 import { useSpeech } from '../hooks/useSpeech'
 import { SuccessAlert } from '../components/SuccessAlert'
 
+
 type _ = 'LOCAL/SET_WORD' | 'LOCAL/NEXT_DEFINITION'
 type LocalState = {
   wordInfo: IWord | undefined,
@@ -166,13 +167,12 @@ export const GuessWord = () => {
           <span className="text-teal-700 text-xl font-bold">Definitions</span>
         </h3>
       </div>
-
       <>
         <div className="flex justify-end w-11/12 mx-auto">
           <button className="text-center text-xs border-b-2 border-dashed focus:outline-none  uppercase cursor-pointer text-teal-700 mx-3" 
             onClick={() => dispatch({ type: 'LOCAL/NEXT_DEFINITION' })}>try another definition</button>
         </div>
-        <div className="bg-gray-200 h-full shadow-lg w-11/12 mx-auto overflow-hidden relative pt-3 pb-2 px-1 rounded-md">
+        <div className="bg-gray-200 h-full shadow-lg w-11/12 mx-auto overflow-hidden relative pt-3 pb-2 px-1 rounded-md" >
           <div className="absolute top-0 inset-x-0">
             <div className="h-1 relative bg-gray-500 overflow-hidden rounded-full">
               {wordIdx && <span style={{ width: `${wordIdx * 100 / words.length}%` }} className="h-1 rounded-full absolute transition-width duration-300 ease-in-out inset-y-0 left-0 bg-teal-700 w-full"/>}
@@ -209,7 +209,7 @@ export const GuessWord = () => {
             }
           </div>
         </div>
-      </>         
+      </>      
       {/* alert  */}
       <SuccessAlert isGuessed={isGuessed} to={`/exercises/guesswords/${nextWord?.word}`} />   
     </>

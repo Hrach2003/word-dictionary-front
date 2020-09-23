@@ -1,4 +1,4 @@
-import { useUserActions } from './../actions/user.actions';
+import { useUserActions } from '../actions/user.actions';
 import { USER_ACTIONS, USER_STATE } from '../types';
 import { useReducer } from 'react';
 

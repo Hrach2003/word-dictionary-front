@@ -1,5 +1,4 @@
 @import "tailwindcss/base";
-
 @import "tailwindcss/components";
 
 .btn {
@@ -23,7 +22,6 @@
   @apply shadow; 
   @apply text-lg;
   @apply text-gray-800;
-  @apply rounded-md;
   @apply px-4;
   @apply py-2;
 };
@@ -31,10 +29,6 @@
 a.active {
   @apply bg-black
 };
-
-:root {
-  filter: invert(100%)
-}
 
 @import "tailwindcss/utilities";
 
