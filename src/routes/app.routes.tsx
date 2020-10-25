@@ -16,7 +16,8 @@ const Word = lazy(() => import("../pages/Word").then(({Word}) => ({ default: Wor
 const Learning = lazy(() => import("../pages/Learning").then(({ Learning }) => ({ default: Learning })));
 const Profile = lazy(() => import("../pages/Profile").then(({ Profile }) => ({ default: Profile })));
 const MatchSynonyms = lazy(() => import("../pages/MatchSynonyms").then(({ MatchSynonyms }) => ({ default: MatchSynonyms })));
-const Books = lazy(() => import("../pages/Books"))
+const BookList = lazy(() => import("../pages/BookLists"))
+const Book = lazy(() => import("../pages/BookView"))
 const TodoList = lazy(() => import("../pages/TodoList"))
 
 
@@ -67,9 +68,15 @@ export const Routes: React.FC<{}> = () => {
         </Default>
       </Route>
 
-      <Route path="/booklist">
+      <Route path="/booklist" exact>
         <Empty>
-          <SuspensedPage children={<Books />} />  
+          <SuspensedPage children={<BookList />} />  
+        </Empty>
+      </Route>
+
+       <Route path="/booklist/:url">
+        <Empty>
+          <SuspensedPage children={<Book />} />  
         </Empty>
       </Route>
       {!userState.authorized 

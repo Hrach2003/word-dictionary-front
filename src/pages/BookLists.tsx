@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from 'react'
-import { useHistory } from 'react-router-dom'
+import { Link, useHistory } from 'react-router-dom'
 import { useAppNampespace } from '../store/main'
 
-const isDev = process.env.NODE_ENV === 'development'
 
 const Books = () => {
   const history = useHistory()
@@ -11,6 +10,7 @@ const Books = () => {
   useEffect(() => {
     (async () => await setAppBooks())()
   }, [setAppBooks])
+
   return (
     <>
       <div className="w-11/12 mx-auto py-1 h-16 flex items-center">
@@ -26,19 +26,13 @@ const Books = () => {
 
       <div className="w-11/12 mx-auto">
         {appState.books.length && appState.books.map(({ name, url }) => {
-          return <div 
+          return <Link 
+            to={`/booklist/${name}?url=${url}`} 
             className="btn bg-teal-700 rounded-full cursor-pointer mt-2 shadow-md px-2 py-1" 
-            key={url} onClick={() => setActiveBook({ url, name })}
-          >{name}</div>
+            key={url}
+          >{name}</Link>
         })}
       </div>
-
-       {activeBook && <iframe 
-          className="fixed bottom-0 inset-x-0 h-full" 
-          width="100%"
-          src={`${isDev ? 'http://localhost:4000' : ''}${activeBook.url}`} 
-          title={activeBook.name}>
-        </iframe>}
     </>
   )
 }

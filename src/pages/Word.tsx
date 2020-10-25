@@ -52,7 +52,7 @@ export const Word = () => {
               {condition.loading && <i className="animate-spin fas fa-circle-notch"></i>}
               {!includes && !condition.loading && <i className="fas fa-plus-circle"></i>}
               {includes && !condition.loading && <i className="fas fa-bookmark"></i>}
-            </button> 
+            </button>
           </div> 
         </div>
         <hr className="bg-gray-900" />
